@@ -2,12 +2,14 @@
 
 import { useMe, useLogout } from "@/hooks/use-auth";
 import { useUIStore } from "@/store/ui-store";
+import { useTheme } from "next-themes";
 import Link from "next/link";
 
 export default function DashboardPage() {
   const { data: user, isLoading } = useMe();
   const logout = useLogout();
   const { sidebarOpen, toggleSidebar } = useUIStore();
+  const { theme, setTheme } = useTheme();
 
   if (isLoading) {
     return (
@@ -55,7 +57,19 @@ export default function DashboardPage() {
           </Link>
         </nav>
 
-        <div className="p-4 border-t border-border">
+        <div className="p-4 border-t border-border space-y-2">
+          <button
+            onClick={() =>
+              setTheme(theme === "dark" ? "light" : theme === "light" ? "system" : "dark")
+            }
+            className="flex items-center gap-3 rounded-md px-3 py-2 w-full hover:bg-accent transition-colors text-sm"
+            aria-label="Toggle theme"
+          >
+            <span>{theme === "dark" ? "🌙" : theme === "light" ? "☀️" : "💻"}</span>
+            {sidebarOpen && (
+              <span className="capitalize">{theme ?? "system"}</span>
+            )}
+          </button>
           <button
             onClick={() => logout.mutate()}
             className="flex items-center gap-3 rounded-md px-3 py-2 w-full hover:bg-destructive/10 hover:text-destructive transition-colors"

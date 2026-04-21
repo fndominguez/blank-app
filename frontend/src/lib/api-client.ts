@@ -79,4 +79,26 @@ export const authApi = {
     fetch(`${API_BASE_URL}/api/v1/users/me`, {
       credentials: "include",
     }).then((r) => handleResponse<UserResponse>(r)),
+
+  refresh: (refresh_token: string) =>
+    fetch(`${API_BASE_URL}/api/v1/auth/refresh`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({ refresh_token }),
+    }).then((r) => handleResponse<TokenPair>(r)),
+};
+
+export interface UserUpdateRequest {
+  full_name?: string | null;
+}
+
+export const userApi = {
+  updateMe: (data: UserUpdateRequest) =>
+    fetch(`${API_BASE_URL}/api/v1/users/me`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify(data),
+    }).then((r) => handleResponse<UserResponse>(r)),
 };

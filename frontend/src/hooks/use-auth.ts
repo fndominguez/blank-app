@@ -1,6 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import { authApi, type LoginRequest, type RegisterRequest } from "@/lib/api-client";
+import {
+  authApi,
+  userApi,
+  type LoginRequest,
+  type RegisterRequest,
+  type UserUpdateRequest,
+} from "@/lib/api-client";
 
 const ME_QUERY_KEY = ["auth", "me"] as const;
 
@@ -41,6 +47,16 @@ export function useLogout() {
     onSuccess: () => {
       queryClient.clear();
       router.push("/login");
+    },
+  });
+}
+
+export function useUpdateMe() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (data: UserUpdateRequest) => userApi.updateMe(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ME_QUERY_KEY });
     },
   });
 }
