@@ -59,13 +59,11 @@ export default function DashboardPage() {
 
         <div className="p-4 border-t border-border space-y-2">
           <button
-            onClick={() =>
-              setTheme(theme === "dark" ? "light" : theme === "light" ? "system" : "dark")
-            }
+            onClick={() => setTheme(THEME_CYCLE[theme ?? "system"] ?? "dark")}
             className="flex items-center gap-3 rounded-md px-3 py-2 w-full hover:bg-accent transition-colors text-sm"
             aria-label="Toggle theme"
           >
-            <span>{theme === "dark" ? "🌙" : theme === "light" ? "☀️" : "💻"}</span>
+            <span>{THEME_ICON[theme ?? "system"] ?? "💻"}</span>
             {sidebarOpen && (
               <span className="capitalize">{theme ?? "system"}</span>
             )}
@@ -137,6 +135,18 @@ export default function DashboardPage() {
     </div>
   );
 }
+
+const THEME_CYCLE: Record<string, string> = {
+  dark: "light",
+  light: "system",
+  system: "dark",
+};
+
+const THEME_ICON: Record<string, string> = {
+  dark: "🌙",
+  light: "☀️",
+  system: "💻",
+};
 
 const stats = [
   { label: "Projects", value: "12" },

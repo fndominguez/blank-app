@@ -68,12 +68,6 @@ function reducer(state: State, action: Action): State {
   }
 }
 
-let count = 0;
-function genId() {
-  count = (count + 1) % Number.MAX_SAFE_INTEGER;
-  return count.toString();
-}
-
 // Module-level state so toasts persist across re-renders
 let memoryState: State = { toasts: [] };
 const listeners: Array<React.Dispatch<React.SetStateAction<State>>> = [];
@@ -94,7 +88,7 @@ function dispatch(action: Action) {
 type ToastInput = Omit<ToasterToast, "id">;
 
 function toast(props: ToastInput) {
-  const id = genId();
+  const id = crypto.randomUUID();
   const update = (p: Partial<ToasterToast>) =>
     dispatch({ type: "UPDATE_TOAST", toast: { ...p, id } });
   const dismiss = () => dispatch({ type: "DISMISS_TOAST", toastId: id });
