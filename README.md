@@ -4,25 +4,26 @@ An industrial-grade, production-ready full-stack SaaS monorepo boilerplate.
 
 ## Tech Stack
 
-| Layer | Technology |
-|-------|-----------|
-| Backend | Python 3.12+, FastAPI, SQLAlchemy 2.0 (Async), Pydantic v2 |
-| Package Manager | uv |
-| Migrations | Alembic |
-| Frontend | Next.js 14+ (App Router), TypeScript, Tailwind CSS |
-| UI Components | shadcn/ui |
-| Server State | TanStack Query v5 |
-| Client State | Zustand |
-| Database | PostgreSQL |
-| Auth | JWT via HTTP-only cookies |
-| Rate Limiting | slowapi |
-| Quality | Ruff, mypy (strict), pytest-asyncio |
-| CI/CD | GitHub Actions |
-| Infrastructure | Docker (multi-stage), docker-compose |
+| Layer           | Technology                                                 |
+| --------------- | ---------------------------------------------------------- |
+| Backend         | Python 3.12+, FastAPI, SQLAlchemy 2.0 (Async), Pydantic v2 |
+| Package Manager | uv                                                         |
+| Migrations      | Alembic                                                    |
+| Frontend        | Next.js 14+ (App Router), TypeScript, Tailwind CSS         |
+| UI Components   | shadcn/ui                                                  |
+| Server State    | TanStack Query v5                                          |
+| Client State    | Zustand                                                    |
+| Database        | PostgreSQL                                                 |
+| Auth            | JWT via HTTP-only cookies                                  |
+| Rate Limiting   | slowapi                                                    |
+| Quality         | Ruff, mypy (strict), pytest-asyncio                        |
+| CI/CD           | GitHub Actions                                             |
+| Infrastructure  | Docker (multi-stage), docker-compose                       |
 
 ## Quick Start
 
 ### Prerequisites
+
 - Docker & Docker Compose
 - Python 3.12+
 - Node.js 20+
@@ -82,27 +83,30 @@ uv pip install -e ".[dev]"
 # Set up environment
 cp .env.example .env
 
+# Start PostgreSQL before running migrations
+docker-compose up -d postgres
+
 # Run migrations
-alembic upgrade head
+uv run alembic upgrade head
 
 # Start server
-uvicorn app.main:app --reload
+uv run uvicorn app.main:app --reload
 
 # Run tests
-pytest
+uv run pytest
 
 # Lint & format
-ruff check .
-ruff format .
+uv run ruff check .
+uv run ruff format .
 
 # Type check
-mypy app
+uv run mypy app
 
 # Export OpenAPI schema (no server needed)
-python scripts/export_openapi.py
+uv run python scripts/export_openapi.py
 
 # Check migrations are in sync with models
-alembic check
+uv run alembic check
 ```
 
 ### Frontend

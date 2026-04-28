@@ -2,14 +2,17 @@ from __future__ import annotations
 
 import asyncio
 import os
+from pathlib import Path
 from logging.config import fileConfig
 
 from sqlalchemy import pool
 from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
+from dotenv import load_dotenv
 
 from alembic import context
 from app.db.base import Base
+from app.core.config import settings
 
 # Import all models so Alembic can detect them
 from app.models import User  # noqa: F401
@@ -17,8 +20,11 @@ from app.models import User  # noqa: F401
 # this is the Alembic Config object
 config = context.config
 
-# Inject DATABASE_URL from environment (overrides alembic.ini placeholder)
-db_url = os.environ.get("DATABASE_URL", "")
+# Load backend/.env when running from the backend directory.
+load_dotenv(Path(__file__).resolve().parents[1] / ".env")
+
+# Inject DATABASE_URL from validated settings (falls back to env if needed).
+db_url = str(settings.DATABASE_URL or os.environ.get("DATABASE_URL", ""))
 if db_url.startswith("postgresql://"):
     db_url = db_url.replace("postgresql://", "postgresql+asyncpg://", 1)
 config.set_main_option("sqlalchemy.url", db_url)
