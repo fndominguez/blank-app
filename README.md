@@ -76,8 +76,18 @@ api/ → services/ → repositories/ → models/
 ```bash
 cd backend
 
-# Install dependencies with uv
+# Install uv first if needed
+# Windows: winget install Astral.uv
+# Or: python -m pip install uv
 pip install uv
+
+# Create and activate a clean virtual env
+uv venv
+
+# Bash (Git Bash, WSL, macOS, Linux)
+# source .venv/bin/activate
+
+# Install dependencies into the venv
 uv pip install -e ".[dev]"
 
 # Set up environment
