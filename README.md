@@ -127,6 +127,9 @@ cd frontend
 # Install dependencies
 npm install
 
+# Install the Playwright browser used by e2e tests
+npx playwright install chromium
+
 # Start dev server
 npm run dev
 
@@ -135,6 +138,9 @@ npm run type-check
 
 # Lint
 npm run lint
+
+# Run frontend e2e smoke tests
+npm run test:e2e
 
 # Generate typed API client from OpenAPI spec
 # (requires backend/openapi.json to exist)

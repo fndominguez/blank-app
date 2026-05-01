@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "type-check": "tsc --noEmit",
+    "test:e2e": "playwright test",
     "generate-client": "openapi-typescript ../backend/openapi.json -o src/api-generated/schema.d.ts && openapi-fetch --input ../backend/openapi.json --output src/api-generated"
   },
   "dependencies": {
@@ -31,6 +32,7 @@
     "zustand": "^4.5.2"
   },
   "devDependencies": {
+    "@playwright/test": "^1.51.1",
     "@types/node": "^20.14.2",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
